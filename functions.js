@@ -1,3 +1,7 @@
+const path = require('path')
+const fs = require('fs')
+
+const db_path = path.join(__dirname, 'db', 'db.json')
 
 function getAllUsers(req, res) {
     fs.readFile(db_path, 'utf8', (err, users) => {
@@ -7,10 +11,11 @@ function getAllUsers(req, res) {
             res.end('An error occurred when reading the file')
         }
 
-        res.end(user)
+        res.end(users)
     })
 }
 
+//add user
 function addUser(req, res) {
     const body = []
 
@@ -32,7 +37,7 @@ function addUser(req, res) {
             const allUsers = JSON.parse(users)
             let lastUserId = allUsers[allUsers.length - 1].id
             newUser.id = lastUserId + 1
-           
+
             const allNewUsers = [...allUsers, newUser]
 
             fs.writeFile(db_path, JSON.stringify(allNewUsers), (err) => {
@@ -49,6 +54,7 @@ function addUser(req, res) {
     })
 }
 
+//update user
 function updateUser(req, res) {
     const body = []
 
@@ -96,6 +102,7 @@ function updateUser(req, res) {
     })
 }
 
+//Delete user
 function deleteUser(req, res) {
     const body = []
 

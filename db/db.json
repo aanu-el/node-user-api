@@ -16,5 +16,11 @@
         "dob": "30-09-1999",
         "class": "frontend",
         "id": 3
+    },
+    {
+        "name": "Chloe Sullivan",
+        "dob": "30-09-1988",
+        "class": "devOps",
+        "id": 4
     }
 ]
