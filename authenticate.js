@@ -23,13 +23,35 @@ function authenticateUser(req, res) {
             const loginDetails = JSON.parse(parsedBody)
 
             //Get all registered Admins from database
+            const allAdmin = await getAllAdmin()
+
+            const checkAdmin = allAdmin.find((admin) => {
+                return admin.username === loginDetails.username
+            })
+
+            if (!checkAdmin) {
+                reject("User not found. Please register")
+            }
+
+            // check if the password of the admin is correct with the one in the database
+            if (checkAdmin.password !== loginDetails.password) {
+                reject("Password is incorrect")
+            }
+
+            resolve()
         })
     })
 }
 
 function getAllAdmin() {
     return new Promise((resolve, reject) => {
+        fs.readFile(adminDb_path, 'utf8', (err, data) => {
+            if (err) {
+                reject(err)
+            }
 
+            resolve(JSON.parse(data))
+        })
     })
 }
 
